@@ -36,7 +36,9 @@ SOURCES += \
     GUI/layoutcatalogo.cpp \
     GUI/combotipodevice.cpp \
     GUI/combomemoriaram.cpp \
-    GUI/combomemoriainterna.cpp
+    GUI/combomemoriainterna.cpp \
+    GUI/itemwidget.cpp \
+    GUI/listdevice.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -51,7 +53,9 @@ HEADERS += \
     GUI/layoutcatalogo.h \
     GUI/combotipodevice.h \
     GUI/combomemoriaram.h \
-    GUI/combomemoriainterna.h
+    GUI/combomemoriainterna.h \
+    GUI/itemwidget.h \
+    GUI/listdevice.h
 
 FORMS += \
         mainwindow.ui
