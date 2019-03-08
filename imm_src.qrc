@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/imm">
+        <file>Immagini/aggiungi-icon.png</file>
+        <file>Immagini/carica-icon.png</file>
+        <file>Immagini/catalogo-icon.png</file>
+        <file>Immagini/cerca-icon.png</file>
+        <file>Immagini/salva-icon.png</file>
+    </qresource>
+</RCC>
