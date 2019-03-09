@@ -1,42 +1,43 @@
 #include "gerarchia.h"
+using std::cin;
 
-Device::Device(std::string mod, std::string prod, std::string dim, std::string proc, std::string so, int ram, int mem, double p) :
-        modello(mod), produttore(prod), dimensioneSchermo(dim), processore(proc), sistemaOperativo(so), memoriaRam(ram), memoria(mem), prezzo(p) {}
+Device::Device(std::string mod, std::string prod, std::string dim, std::string proc, int ram, int mem, double p) :
+        modello(mod), produttore(prod), dimensioneSchermo(dim), processore(proc), memoriaRam(ram), memoria(mem), prezzo(p) {}
+
+Mobile::Mobile(std::string mod, std::string prod, std::string dim, std::string proc, int ram, int mem, double p, bool sd, bool j, bool fID, int pxf, int pxp) :
+    Device(mod,prod,dim,proc,ram,mem,p), schedaSD(sd), jack(j), faceID(fID), pxFrontali(pxf), pxPosteriori(pxp) {}
+
+Smartphone::Smartphone(std::string mod, std::string prod, std::string dim, std::string proc, int ram, int mem, double p, bool sd, bool j, bool fID, int pxf, int pxp, bool sim) :
+    Device(mod,prod,dim,proc,ram,mem,p), Mobile(mod,prod,dim,proc,ram,mem,p,sd,j,fID,pxf,pxp), dualSIM(sim) {}
+
+Tablet::Tablet(std::string mod, std::string prod, std::string dim, std::string proc, int ram, int mem, double p,  bool sd, bool j, bool fID, int pxf, int pxp, bool sim) :
+    Device(mod,prod,dim,proc,ram,mem,p), Mobile(mod,prod,dim,proc,ram,mem,p,sd,j,fID,pxf,pxp), SIM(sim) {}
 
 
-Mobile::Mobile(std::string mod, std::string prod, std::string dim, std::string proc, std::string so, int ram, int mem, double p, bool sd, bool j, bool fID, int pxf, int pxp) :
-    Device(mod,prod,dim,proc,so,ram,mem,p), schedaSD(sd), jack(j), faceID(fID), pxFrontali(pxf), pxPosteriori(pxp) {}
+Computer::Computer(std::string mod, std::string prod, std::string dim, std::string proc, int ram, int mem, double p, bool touch, bool cd, int usb) :
+    Device(mod,prod,dim,proc,ram,mem,p), touchscreen(touch), lettoreCD(cd), porteUSB(usb) {}
 
-Smartphone::Smartphone(std::string mod, std::string prod, std::string dim, std::string proc, std::string so, int ram, int mem, double p, bool sd, bool j, bool fID, int pxf, int pxp, bool sim) :
-    Device(mod,prod,dim,proc,so,ram,mem,p), Mobile(mod,prod,dim,proc,so,ram,mem,p,sd,j,fID,pxf,pxp), dualSIM(sim) {}
+Portatile::Portatile(std::string mod, std::string prod, std::string dim, std::string proc, int ram, int mem, double p, bool touch, bool cd, int usb, bool ete, bool cam, bool luce, int pxw) :
+    Device(mod,prod,dim,proc,ram,mem,p), Computer(mod,prod,dim,proc,ram,mem,p,touch,cd,usb), ethernet(ete), webcam(cam), luceTastiera(luce), pxWebcam(pxw) {}
 
-Tablet::Tablet(std::string mod, std::string prod, std::string dim, std::string proc, std::string so, int ram, int mem, double p,  bool sd, bool j, bool fID, int pxf, int pxp, bool sim) :
-    Device(mod,prod,dim,proc,so,ram,mem,p), Mobile(mod,prod,dim,proc,so,ram,mem,p,sd,j,fID,pxf,pxp), SIM(sim) {}
-
-
-Computer::Computer(std::string mod, std::string prod, std::string dim, std::string proc, std::string so, int ram, int mem, double p, bool touch, bool cd, int usb) :
-    Device(mod,prod,dim,proc,so,ram,mem,p), touchscreen(touch), lettoreCD(cd), porteUSB(usb) {}
-
-Portatile::Portatile(std::string mod, std::string prod, std::string dim, std::string proc, std::string so, int ram, int mem, double p, bool touch, bool cd, int usb, bool ete, bool cam, bool luce, int pxw) :
-    Device(mod,prod,dim,proc,so,ram,mem,p), Computer(mod,prod,dim,proc,so,ram,mem,p,touch,cd,usb), ethernet(ete), webcam(cam), luceTastiera(luce), pxWebcam(pxw) {}
-
-Fisso::Fisso(std::string mod, std::string prod, std::string dim, std::string proc, std::string so, int ram, int mem, double p, bool touch, bool cd, int usb, bool bl, bool wf) :
-    Device(mod,prod,dim,proc,so,ram,mem,p), Computer(mod,prod,dim,proc,so,ram,mem,p,touch,cd,usb), bluetooth(bl), wifi(wf) {}
+Fisso::Fisso(std::string mod, std::string prod, std::string dim, std::string proc, int ram, int mem, double p, bool touch, bool cd, int usb, bool bl, bool wf) :
+    Device(mod,prod,dim,proc,ram,mem,p), Computer(mod,prod,dim,proc,ram,mem,p,touch,cd,usb), bluetooth(bl), wifi(wf) {}
 
 Convertibile::Convertibile(
         // campi device
-        std::string mod, std::string prod, std::string dim, std::string proc, std::string so, int ram, int mem, double p,
+        std::string mod, std::string prod, std::string dim, std::string proc, int ram, int mem, double p,
         // campi mobile e tablet
         bool sd, bool j, bool fID, int pxf, int pxp, bool sim,
         // campi computer e portatile
-        bool touch, bool cd, int usb, bool ete, bool cam, bool luce, int pxw,
+        bool touch, bool cd, int usb, bool ete, bool cam, bool luce, /*int pxw,*/
         // campi propri
         bool pen, bool stacca
         ) :
-    Device(mod,prod,dim,proc,so,ram,mem,p),
-    Tablet(mod,prod,dim,proc,so,ram,mem,p,sd,j,fID,pxf,pxp,sim),
-    Portatile(mod,prod,dim,proc,so,ram,mem,p,touch,cd,usb,ete,cam,luce,pxw),
+    Device(mod,prod,dim,proc,ram,mem,p),
+    Tablet(mod,prod,dim,proc,ram,mem,p,sd,j,fID,pxf,pxp,sim),
+    Portatile(mod,prod,dim,proc,ram,mem,p,touch,cd,usb,ete,cam,luce,pxf),
     penna(pen), staccaTastiera(stacca) {}
+    // pxf = pixel fotocamera frontale (mobile) = pixel webcam (portatile)
 
 /********************* GET ********************/
 
@@ -44,10 +45,10 @@ std::string Device::getModello() const { return modello; }
 std::string Device::getProduttore() const { return produttore; }
 std::string Device::getDimensioneSchermo() const { return dimensioneSchermo; }
 std::string Device::getProcessore() const { return processore; }
-std::string Device::getSistemaOperativo() const { return sistemaOperativo; }
 int Device::getMemoriaRam() const { return memoriaRam; }
 int Device::getMemoria() const { return memoria; }
 double Device::getPrezzo() const { return prezzo; }
+std::string Device::getImmagine() const{ return pathImmagine; }
 
 bool Mobile::getSchedaSD() const { return schedaSD; }
 bool Mobile::getJack() const { return jack; }
@@ -80,7 +81,6 @@ void Device::setModello(std::string m) {modello = m;}
 void Device::setProduttore(std::string p) {produttore = p;}
 void Device::setDimensioneSchermo(std::string d) {dimensioneSchermo = d;}
 void Device::setProcessore(std::string p) {processore = p;}
-void Device::setSistemaOperativo(std::string so) {sistemaOperativo = so;}
 void Device::setMemoriaRam(int ram) {memoriaRam = ram;}
 void Device::setMemoria(int m) {memoria = m;}
 void Device::setPrezzo(double p) {prezzo = p; }
@@ -109,6 +109,14 @@ void Fisso::setWifi(bool w) {wifi = w;}
 
 void Convertibile::setPenna(bool p) {penna = p;}
 void Convertibile::setStaccaTastiera(bool st) {staccaTastiera = st;}
+void Convertibile::setPxFrontali(int px) {
+    Mobile::setPxFrontali(px);
+    Portatile::setPxWebcam(px);
+}
+void Convertibile::setPxWebcam(int px) {
+    Mobile::setPxFrontali(px);
+    Portatile::setPxWebcam(px);
+}
 
 /********************* == ********************/
 
@@ -147,8 +155,99 @@ bool Fisso::operator==(const Device& f) const {
     return dynamic_cast<const Fisso*>(&f) && Computer::operator==(f);
 }
 
-
 bool Convertibile::operator==(const Device& c) const {
     return dynamic_cast<const Convertibile*>(&c) && Tablet::operator==(c) && Portatile::operator==(c);
 }
+/********** extra sui prezzi ***************/
 
+int Mobile::extraSchedaSD = 20;
+int Smartphone::extraDualSIM = 30;
+int Tablet::extraSIM = 30;
+
+int Computer::extraTouchscreen = 100;
+int Portatile::extraLuceTastiera = 70;
+
+/********** calcola prezzo *****************/
+
+double Mobile::calcolaPrezzo() const {
+    return extraSchedaSD*schedaSD + getPrezzo();
+}
+
+double Smartphone::calcolaPrezzo() const {
+    return extraDualSIM*dualSIM + Mobile::calcolaPrezzo();
+}
+
+double Tablet::calcolaPrezzo() const {
+    return extraSIM*SIM + Mobile::calcolaPrezzo();
+}
+
+
+double Computer::calcolaPrezzo() const {
+    return extraTouchscreen*touchscreen + getPrezzo();
+}
+
+double Portatile::calcolaPrezzo() const {
+    return extraLuceTastiera*luceTastiera + Computer::calcolaPrezzo();
+}
+
+double Convertibile::calcolaPrezzo() const {
+    return Tablet::calcolaPrezzo() + Portatile::calcolaPrezzo() - getPrezzo();
+}
+
+/*********** stampa specifiche *************/
+std::string Device::stampaSpecifiche() const{
+    std::string str = "";
+    return str.append("Modello: " + getModello())
+            .append("     Produttore: " + getModello())
+            .append("\nSchermo: " + getModello())
+            .append("     Prcessore: " + getModello())
+            .append("\nRam: " + std::to_string(getMemoriaRam()) + " GB")
+            .append("     Memoria: " + std::to_string(getMemoria()) + " GB");
+}
+
+std::string Mobile::stampaSpecifiche() const{
+    std::string str = Device::stampaSpecifiche();
+    return str.append("\nSchedaSD: ").append(getSchedaSD() ? "Si" : "No")
+            .append("     Jack: ").append(getJack() ? "Si" : "No")
+            .append("     FaceID: ").append(getFaceID() ? "Si" : "No")
+            .append("\n Fotocamera frontale: " + std::to_string(getPxFrontali()) + " MPX")
+            .append("     Fotocamera posteriore: " + std::to_string(getPxPosteriori()) ).append(" MPX");
+}
+
+std::string Smartphone::stampaSpecifiche() const{
+    std::string str = Mobile::stampaSpecifiche();
+    return str.append("\nDual SIM: ").append(getDualSIM() ? "Si" : "No");
+}
+
+std::string Tablet::stampaSpecifiche() const{
+    std::string str = Mobile::stampaSpecifiche();
+    return str.append("\nSIM: ").append(getSIM() ? "Si" : "No");
+}
+
+
+std::string Computer::stampaSpecifiche() const{
+    std::string str = Device::stampaSpecifiche();
+    return str.append("\nTouchscreen: ").append(getTouchscreen() ? "Si" : "No")
+            .append("     lettoreCD: ").append(getLettoreCD() ? "Si" : "No")
+            .append("     PorteUSB: " + std::to_string(getPorteUSB()) );
+}
+
+std::string Portatile::stampaSpecifiche() const{
+    std::string str = Computer::stampaSpecifiche();
+    std::string webcam_string = getWebcam() ? std::to_string(getPxWebcam()).append(" MPX") : "No";
+    return str.append("\nEthernet: ").append(getEthernet() ? "Si" : "No")
+            .append("     Tastiera Retroilluminata: ").append(getLuceTastiera() ? "Si" : "No")
+            .append("\nWebcam: " + webcam_string);
+}
+
+std::string Fisso::stampaSpecifiche() const{
+    std::string str = Computer::stampaSpecifiche();
+    return str.append("\nBluetooth: ").append(getBluetooth() ? "Si" : "No")
+            .append("     WiFi: ").append(getWifi() ? "Si" : "No");
+}
+
+std::string Convertibile::stampaSpecifiche() const{
+    std::string str = Tablet::stampaSpecifiche() + Portatile::stampaSpecifiche();
+    return str.append("\nPenna inclusa: ").append(getPenna() ? "Si" : "No")
+            .append("     Tastiera rimuovibile: ").append(getStaccaTastiera() ? "Si" : "No");
+}

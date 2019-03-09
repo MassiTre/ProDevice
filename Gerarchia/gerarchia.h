@@ -2,41 +2,46 @@
 #define GERARCHIA_H
 
 #include<string>
+#include<iostream>
+#include<sstream>
+#include<iomanip>
 
 //************************ GERARCHIA ********************************************/
 class Device {
 private:
+    std::string pathImmagine;
     std::string modello;
     std::string produttore;
     std::string dimensioneSchermo;
     std::string processore;
-    std::string sistemaOperativo; // DA ELIMINARE
     int memoriaRam;
     int memoria;
     double prezzo;
 public:
     virtual ~Device() = default;
-    Device(std::string, std::string, std::string, std::string, std::string, int, int, double);    
+    Device(std::string, std::string, std::string, std::string, int, int, double);
 
     std::string getModello() const;
     std::string getProduttore() const;
     std::string getDimensioneSchermo() const;
     std::string getProcessore() const;
-    std::string getSistemaOperativo() const;
     int getMemoriaRam() const;
     int getMemoria() const;
     double getPrezzo() const;
+    std::string getImmagine() const;
 
     void setModello(std::string);
     void setProduttore(std::string);
     void setDimensioneSchermo(std::string);
     void setProcessore(std::string);
-    void setSistemaOperativo(std::string);
     void setMemoriaRam(int);
     void setMemoria(int);
     void setPrezzo(double);
 
     virtual bool operator==(const Device&) const;
+
+    virtual double calcolaPrezzo() const = 0;
+    virtual std::string stampaSpecifiche() const;
 };
 
 class Mobile : virtual public Device {
@@ -46,8 +51,10 @@ private:
     bool faceID;
     int pxFrontali;
     int pxPosteriori;
+
+    static int extraSchedaSD;
 public:
-    Mobile(std::string, std::string, std::string, std::string, std::string, int, int, double, bool, bool, bool, int, int);
+    Mobile(std::string, std::string, std::string, std::string, int, int, double, bool, bool, bool, int, int);
 
     bool getSchedaSD() const;
     bool getJack() const;
@@ -62,30 +69,44 @@ public:
     void setPxPosteriori(int);
 
     virtual bool operator==(const Device&) const;
+
+    virtual double calcolaPrezzo() const;
+    virtual std::string stampaSpecifiche() const;
 };
 
 class Smartphone : public Mobile {
     bool dualSIM;
+
+    static int extraDualSIM;
 public:
-    Smartphone(std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", int = 0, int = 0, double = 0.0, bool = true, bool = true, bool = true, int = 0, int = 0, bool = false);
+    Smartphone(std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", int = 0, int = 0, double = 0.0, bool = true, bool = true, bool = true, int = 0, int = 0, bool = false);
 
     bool getDualSIM() const;
 
     void setDualSIM(bool);
 
     virtual bool operator==(const Device&) const;
+
+    virtual double calcolaPrezzo() const;
+    virtual std::string stampaSpecifiche() const;
 };
 
 class Tablet : public Mobile {
     bool SIM;
+
+    static int extraSIM;
 public:
-    Tablet(std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", int = 0, int = 0, double = 0.0, bool = true, bool = true, bool = true, int = 0, int = 0, bool = false);
+    Tablet(std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", int = 0, int = 0, double = 0.0, bool = true, bool = true, bool = true, int = 0, int = 0, bool = false);
 
     bool getSIM() const;
 
     void setSIM(bool);
 
     virtual bool operator==(const Device&) const;
+
+    virtual double calcolaPrezzo() const;
+    virtual std::string stampaSpecifiche() const;
+
 };
 
 
@@ -93,8 +114,10 @@ class Computer : virtual public Device {
     bool touchscreen;
     bool lettoreCD;
     int porteUSB;
+
+    static int extraTouchscreen;
 public:
-    Computer(std::string, std::string, std::string, std::string, std::string, int, int, double, bool, bool, int);
+    Computer(std::string, std::string, std::string, std::string, int, int, double, bool, bool, int);
 
     bool getTouchscreen() const;
     bool getLettoreCD() const;
@@ -105,6 +128,10 @@ public:
     void setPorteUSB(int);
 
     virtual bool operator==(const Device&) const;
+
+    virtual double calcolaPrezzo() const;
+    virtual std::string stampaSpecifiche() const;
+
 };
 
 class Portatile : public Computer {
@@ -112,8 +139,10 @@ class Portatile : public Computer {
     bool webcam;
     bool luceTastiera;
     int pxWebcam;
+
+    static int extraLuceTastiera;
 public:
-    Portatile(std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", int = 0, int = 0, double = 0.0, bool = false, bool = false, int = 0, bool = false, bool = true, bool = false, int = 0);
+    Portatile(std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", int = 0, int = 0, double = 0.0, bool = false, bool = false, int = 0, bool = false, bool = true, bool = false, int = 0);
 
     bool getEthernet() const;
     bool getWebcam() const;
@@ -126,13 +155,17 @@ public:
     void setPxWebcam(int);
 
     virtual bool operator==(const Device&) const;
+
+    virtual double calcolaPrezzo() const;
+    virtual std::string stampaSpecifiche() const;
+
 };
 
 class Fisso : public Computer {
     bool bluetooth;
     bool wifi;
 public:
-    Fisso(std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", int = 0, int = 0, double = 0.0, bool = false, bool = false, int = 0, bool = false, bool = true);
+    Fisso(std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", int = 0, int = 0, double = 0.0, bool = false, bool = false, int = 0, bool = false, bool = true);
 
     bool getBluetooth() const;
     bool getWifi() const;
@@ -141,6 +174,7 @@ public:
     void setWifi(bool);
 
     virtual bool operator==(const Device&) const;
+    virtual std::string stampaSpecifiche() const;
 };
 
 class Convertibile : public Tablet , public Portatile {
@@ -149,15 +183,15 @@ class Convertibile : public Tablet , public Portatile {
 public:
     Convertibile(
             // campi device
-            std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", int = 0, int = 0, double = 0.0,
+            std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", int = 0, int = 0, double = 0.0,
             // campi mobile
             bool = true, bool = true, bool = true, int = 0, int = 0,
             // campi tablet
-             bool = false,
+            bool = false,
             // campi computer
             bool = false, bool = false, int = 0,
             // campi Portatile
-            bool = false, bool = true, bool = false, int = 0,
+            bool = false, bool = true, bool = false, // int = 0,
             // campi propi
             bool = false, bool = false);
 
@@ -166,8 +200,14 @@ public:
 
     void setPenna(bool);
     void setStaccaTastiera(bool);
+    void setPxFrontali(int px);
+    void setPxWebcam(int px);
 
     virtual bool operator==(const Device&) const;
+
+    virtual double calcolaPrezzo() const;
+    virtual std::string stampaSpecifiche() const;
+
 };
 
 #endif // GERARCHIA_H
