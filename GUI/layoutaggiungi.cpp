@@ -16,7 +16,6 @@ LayoutAggiungi::LayoutAggiungi(QWidget* p):
     lineProcessore(new QLineEdit(this)),
     memoriaRam(new ComboMemoriaRam(this)),
     memoriaInterna(new ComboMemoriaInterna(this)),
-    checkTouchID(new QCheckBox("Touch ID", this)),
     aggiungiMobile(new LayoutAggiungiMobile(this)),
     aggiungiSmartphone(new LayoutAggiungiSmartphone(this)),
     aggiungiTablet(new LayoutAggiungiTablet(this)),
@@ -36,12 +35,12 @@ LayoutAggiungi::LayoutAggiungi(QWidget* p):
     tipoDevice->addItems(devices);
     // tipoDevice->setEnabled(false);
     */
-    grid->addWidget(tipoDevice,0,0,1,3);
+    grid->addWidget(tipoDevice,0,0);
 
     linePrezzo->setPlaceholderText("Inserisci prezzo base");
     QFormLayout* formPrezzo = new QFormLayout();
     formPrezzo->addRow("Prezzo:", linePrezzo);
-    grid->addLayout(formPrezzo,0,3,1,3);
+    grid->addLayout(formPrezzo,0,1);
 
     /***************** riga 1,2: formSx modello, schermo *************/
     lineModello->setPlaceholderText("Inserisci il modello");
@@ -50,7 +49,8 @@ LayoutAggiungi::LayoutAggiungi(QWidget* p):
     QFormLayout* formSx = new QFormLayout();
     formSx->addRow("Modello:", lineModello);
     formSx->addRow("Schermo:", lineSchermo);
-    grid->addLayout(formSx,1,0,2,3);
+    formSx->addRow("Ram:",memoriaRam);
+    grid->addLayout(formSx,1,0);
 
     /***************** riga 1,2: formDx produttore, processore *************/
 
@@ -60,19 +60,8 @@ LayoutAggiungi::LayoutAggiungi(QWidget* p):
     QFormLayout* formDx = new QFormLayout();
     formDx->addRow("Produttore:", lineProduttore);
     formDx->addRow("Processore:", lineProcessore);
-    grid->addLayout(formDx,1,3,2,3);
-
-    /***************** riga 3: ram, mem, touchID *************/
-
-    QFormLayout* formRam = new QFormLayout();
-    formRam->addRow("Ram:",memoriaRam);
-    grid->addLayout(formRam,3,0,1,2);
-
-    QFormLayout* formMem = new QFormLayout();
-    formMem->addRow("Mem:",memoriaInterna);
-    grid->addLayout(formMem,3,2,1,2);
-
-    grid->addWidget(checkTouchID,3,4,1,2);
+    formDx->addRow("Mem:",memoriaInterna);
+    grid->addLayout(formDx,1,1);
 
     // vBox->addStretch(100);
     vBox->addLayout(grid);
@@ -243,6 +232,13 @@ LayoutAggiungiPortatile::LayoutAggiungiPortatile(QWidget* p) :
     linePxWebcam->setPlaceholderText("Inserisci pixel webcam");
     formPxWebcam->addRow("Pixel Webcam:",linePxWebcam);
     grid->addLayout(formPxWebcam,1,3,1,4);
+
+    linePxWebcam->setEnabled(false);
+    connect(checkWebcam, SIGNAL(clicked(bool)), this, SLOT(attivaLineWebcam()));
+}
+
+void LayoutAggiungiPortatile::attivaLineWebcam() const{
+    checkWebcam->isChecked() ? linePxWebcam->setEnabled(true) : linePxWebcam->setEnabled(false);
 }
 /************************* LAYOUT AGGIUNGI SMARTPHONE *************************/
 LayoutAggiungiComputer::LayoutAggiungiComputer(QWidget* p) :
@@ -288,17 +284,18 @@ LayoutAggiungiMobile::LayoutAggiungiMobile (QWidget* p) :
 {
     QGridLayout* grid = new QGridLayout(this);
 
-    grid->addWidget(checkSchedaSD,0,0,1,2);
-    grid->addWidget(checkJack,0,2,1,2);
-    grid->addWidget(checkFaceID,0,4,1,2);
-
     linePxFront->setPlaceholderText("Inserisci px fotocamera frontale");
     QFormLayout* form1 = new QFormLayout();
     form1->addRow("Fotocamera frontale:", linePxFront);
-    grid->addLayout(form1,1,0,1,3);
+    grid->addLayout(form1,0,0,1,3);
 
     linePxBack->setPlaceholderText("Inserisci px fotocamera posteriore");
     QFormLayout* form2 = new QFormLayout();
     form2->addRow("Fotocamera posteriore:", linePxBack);
-    grid->addLayout(form2,1,3,1,3);
+    grid->addLayout(form2,0,3,1,3);
+
+    grid->addWidget(checkSchedaSD,1,0,1,2);
+    grid->addWidget(checkJack,1,2,1,2);
+    grid->addWidget(checkFaceID,1,4,1,2);
+
 }

@@ -44,6 +44,8 @@ private:
     QLineEdit* linePxWebcam;
 public:
     LayoutAggiungiPortatile (QWidget* = nullptr);
+public slots:
+    void attivaLineWebcam() const;
 };
 
 class LayoutAggiungiComputer : public QWidget {

@@ -197,17 +197,17 @@ double Convertibile::calcolaPrezzo() const {
 /*********** stampa specifiche *************/
 std::string Device::stampaSpecifiche() const{
     std::string str = "";
-    return str.append("Modello: " + getModello())
+    return str.append(" Modello: " + getModello())
             .append("     Produttore: " + getModello())
-            .append("\nSchermo: " + getModello())
+            .append("\n Schermo: " + getModello())
             .append("     Prcessore: " + getModello())
-            .append("\nRam: " + std::to_string(getMemoriaRam()) + " GB")
+            .append("\n Ram: " + std::to_string(getMemoriaRam()) + " GB")
             .append("     Memoria: " + std::to_string(getMemoria()) + " GB");
 }
 
 std::string Mobile::stampaSpecifiche() const{
     std::string str = Device::stampaSpecifiche();
-    return str.append("\nSchedaSD: ").append(getSchedaSD() ? "Si" : "No")
+    return str.append("\n SchedaSD: ").append(getSchedaSD() ? "Si" : "No")
             .append("     Jack: ").append(getJack() ? "Si" : "No")
             .append("     FaceID: ").append(getFaceID() ? "Si" : "No")
             .append("\n Fotocamera frontale: " + std::to_string(getPxFrontali()) + " MPX")
@@ -216,18 +216,18 @@ std::string Mobile::stampaSpecifiche() const{
 
 std::string Smartphone::stampaSpecifiche() const{
     std::string str = Mobile::stampaSpecifiche();
-    return str.append("\nDual SIM: ").append(getDualSIM() ? "Si" : "No");
+    return str.append("\n Dual SIM: ").append(getDualSIM() ? "Si" : "No");
 }
 
 std::string Tablet::stampaSpecifiche() const{
     std::string str = Mobile::stampaSpecifiche();
-    return str.append("\nSIM: ").append(getSIM() ? "Si" : "No");
+    return str.append("\n SIM: ").append(getSIM() ? "Si" : "No");
 }
 
 
 std::string Computer::stampaSpecifiche() const{
-    std::string str = Device::stampaSpecifiche();
-    return str.append("\nTouchscreen: ").append(getTouchscreen() ? "Si" : "No")
+    std::string str = dynamic_cast<const Convertibile*>(this) ? "" : Device::stampaSpecifiche();
+    return str.append("\n Touchscreen: ").append(getTouchscreen() ? "Si" : "No")
             .append("     lettoreCD: ").append(getLettoreCD() ? "Si" : "No")
             .append("     PorteUSB: " + std::to_string(getPorteUSB()) );
 }
@@ -235,19 +235,19 @@ std::string Computer::stampaSpecifiche() const{
 std::string Portatile::stampaSpecifiche() const{
     std::string str = Computer::stampaSpecifiche();
     std::string webcam_string = getWebcam() ? std::to_string(getPxWebcam()).append(" MPX") : "No";
-    return str.append("\nEthernet: ").append(getEthernet() ? "Si" : "No")
+    return str.append("\n Ethernet: ").append(getEthernet() ? "Si" : "No")
             .append("     Tastiera Retroilluminata: ").append(getLuceTastiera() ? "Si" : "No")
-            .append("\nWebcam: " + webcam_string);
+            .append("\n Webcam: " + webcam_string);
 }
 
 std::string Fisso::stampaSpecifiche() const{
     std::string str = Computer::stampaSpecifiche();
-    return str.append("\nBluetooth: ").append(getBluetooth() ? "Si" : "No")
+    return str.append("\n Bluetooth: ").append(getBluetooth() ? "Si" : "No")
             .append("     WiFi: ").append(getWifi() ? "Si" : "No");
 }
 
 std::string Convertibile::stampaSpecifiche() const{
     std::string str = Tablet::stampaSpecifiche() + Portatile::stampaSpecifiche();
-    return str.append("\nPenna inclusa: ").append(getPenna() ? "Si" : "No")
+    return str.append("\n Penna inclusa: ").append(getPenna() ? "Si" : "No")
             .append("     Tastiera rimuovibile: ").append(getStaccaTastiera() ? "Si" : "No");
 }

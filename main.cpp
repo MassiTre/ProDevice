@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
     // w.setMaximumHeight(1000);
     w.show();
 
-    Portatile d;
+    Convertibile d;
     d.setPrezzo(1000);
     std::cout << "prezzo base: " << d.getPrezzo() << std::endl;
     d.setLuceTastiera(true);
