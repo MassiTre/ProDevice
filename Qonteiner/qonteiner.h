@@ -1,4 +1,4 @@
-ifndef QONTAINER_H
+#ifndef QONTAINER_H
 #define QONTAINER_H
 
 #include<iostream>

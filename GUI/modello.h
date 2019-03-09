@@ -7,7 +7,7 @@
 class Modello
 {
     private:
-        Qonteiner<Device*>* list;
+        Container<Device*>* list;
     public:
 
 };

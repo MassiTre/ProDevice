@@ -55,7 +55,8 @@ HEADERS += \
     GUI/combomemoriaram.h \
     GUI/combomemoriainterna.h \
     GUI/itemwidget.h \
-    GUI/listdevice.h
+    GUI/listdevice.h \
+    Qonteiner/qonteiner.h
 
 FORMS += \
         mainwindow.ui
