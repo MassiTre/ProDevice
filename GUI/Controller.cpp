@@ -1,4 +1,5 @@
 #include "controller.h"
+#include <QFileDialog>
 
 Controller::Controller(Modello* m, QWidget* parent) :
     QWidget(parent),
@@ -53,4 +54,24 @@ void Controller::esciLayoutCatalogo() const {
     cercaLayout->hide();
 
     catalogoLayout->show();
+}
+
+void Controller::caricaDati(){
+    QString file = QFileDialog::getOpenFileName(this, tr("Scegli file"), ":/Dati Dispositivi" , "File XML(*.xml)");
+
+    if(file!=""){
+        catalogoLayout->getLista()->clear();
+        modello->setNuovaPath(file.toStdString());
+        modello->carica();
+
+        Container<Device*>::iterator b_it = modello->it_begin();
+        Container<Device*>::iterator e_it = modello->it_end();
+
+        for(; b_it != e_it; ++b_it){
+          catalogoLayout->getLista()->aggiungiDevice(*b_it);
+        }
+
+        modello->setSalvataggio(true);
+        esciLayoutCatalogo();
+    }
 }

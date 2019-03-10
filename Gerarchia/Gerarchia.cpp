@@ -1,31 +1,31 @@
 #include "gerarchia.h"
 using std::cin;
 
-Device::Device(std::string mod, std::string prod, std::string dim, std::string proc, int ram, int mem, double p) :
-        modello(mod), produttore(prod), dimensioneSchermo(dim), processore(proc), memoriaRam(ram), memoria(mem), prezzo(p) {}
+Device::Device(std::string path, std::string mod, std::string prod, std::string dim, std::string proc, int ram, int mem, double p) :
+    pathImmagine(path), modello(mod), produttore(prod), dimensioneSchermo(dim), processore(proc), memoriaRam(ram), memoria(mem), prezzo(p) {}
 
-Mobile::Mobile(std::string mod, std::string prod, std::string dim, std::string proc, int ram, int mem, double p, bool sd, bool j, bool fID, int pxf, int pxp) :
-    Device(mod,prod,dim,proc,ram,mem,p), schedaSD(sd), jack(j), faceID(fID), pxFrontali(pxf), pxPosteriori(pxp) {}
+Mobile::Mobile(std::string path, std::string mod, std::string prod, std::string dim, std::string proc, int ram, int mem, double p, bool sd, bool j, bool fID, int pxf, int pxp) :
+    Device(path,mod,prod,dim,proc,ram,mem,p), schedaSD(sd), jack(j), faceID(fID), pxFrontali(pxf), pxPosteriori(pxp) {}
 
-Smartphone::Smartphone(std::string mod, std::string prod, std::string dim, std::string proc, int ram, int mem, double p, bool sd, bool j, bool fID, int pxf, int pxp, bool sim) :
-    Device(mod,prod,dim,proc,ram,mem,p), Mobile(mod,prod,dim,proc,ram,mem,p,sd,j,fID,pxf,pxp), dualSIM(sim) {}
+Smartphone::Smartphone(std::string path, std::string mod, std::string prod, std::string dim, std::string proc, int ram, int mem, double p, bool sd, bool j, bool fID, int pxf, int pxp, bool sim) :
+    Device(path,mod,prod,dim,proc,ram,mem,p), Mobile(path,mod,prod,dim,proc,ram,mem,p,sd,j,fID,pxf,pxp), dualSIM(sim) {}
 
-Tablet::Tablet(std::string mod, std::string prod, std::string dim, std::string proc, int ram, int mem, double p,  bool sd, bool j, bool fID, int pxf, int pxp, bool sim) :
-    Device(mod,prod,dim,proc,ram,mem,p), Mobile(mod,prod,dim,proc,ram,mem,p,sd,j,fID,pxf,pxp), SIM(sim) {}
+Tablet::Tablet(std::string path, std::string mod, std::string prod, std::string dim, std::string proc, int ram, int mem, double p,  bool sd, bool j, bool fID, int pxf, int pxp, bool sim) :
+    Device(path,mod,prod,dim,proc,ram,mem,p), Mobile(path,mod,prod,dim,proc,ram,mem,p,sd,j,fID,pxf,pxp), SIM(sim) {}
 
 
-Computer::Computer(std::string mod, std::string prod, std::string dim, std::string proc, int ram, int mem, double p, bool touch, bool cd, int usb) :
-    Device(mod,prod,dim,proc,ram,mem,p), touchscreen(touch), lettoreCD(cd), porteUSB(usb) {}
+Computer::Computer(std::string path, std::string mod, std::string prod, std::string dim, std::string proc, int ram, int mem, double p, bool touch, bool cd, int usb) :
+    Device(path,mod,prod,dim,proc,ram,mem,p), touchscreen(touch), lettoreCD(cd), porteUSB(usb) {}
 
-Portatile::Portatile(std::string mod, std::string prod, std::string dim, std::string proc, int ram, int mem, double p, bool touch, bool cd, int usb, bool ete, bool cam, bool luce, int pxw) :
-    Device(mod,prod,dim,proc,ram,mem,p), Computer(mod,prod,dim,proc,ram,mem,p,touch,cd,usb), ethernet(ete), webcam(cam), luceTastiera(luce), pxWebcam(pxw) {}
+Portatile::Portatile(std::string path, std::string mod, std::string prod, std::string dim, std::string proc, int ram, int mem, double p, bool touch, bool cd, int usb, bool ete, bool cam, bool luce, int pxw) :
+    Device(path,mod,prod,dim,proc,ram,mem,p), Computer(path,mod,prod,dim,proc,ram,mem,p,touch,cd,usb), ethernet(ete), webcam(cam), luceTastiera(luce), pxWebcam(pxw) {}
 
-Fisso::Fisso(std::string mod, std::string prod, std::string dim, std::string proc, int ram, int mem, double p, bool touch, bool cd, int usb, bool bl, bool wf) :
-    Device(mod,prod,dim,proc,ram,mem,p), Computer(mod,prod,dim,proc,ram,mem,p,touch,cd,usb), bluetooth(bl), wifi(wf) {}
+Fisso::Fisso(std::string path, std::string mod, std::string prod, std::string dim, std::string proc, int ram, int mem, double p, bool touch, bool cd, int usb, bool bl, bool wf) :
+    Device(path,mod,prod,dim,proc,ram,mem,p), Computer(path,mod,prod,dim,proc,ram,mem,p,touch,cd,usb), bluetooth(bl), wifi(wf) {}
 
 Convertibile::Convertibile(
         // campi device
-        std::string mod, std::string prod, std::string dim, std::string proc, int ram, int mem, double p,
+        std::string path, std::string mod, std::string prod, std::string dim, std::string proc, int ram, int mem, double p,
         // campi mobile e tablet
         bool sd, bool j, bool fID, int pxf, int pxp, bool sim,
         // campi computer e portatile
@@ -33,9 +33,9 @@ Convertibile::Convertibile(
         // campi propri
         bool pen, bool stacca
         ) :
-    Device(mod,prod,dim,proc,ram,mem,p),
-    Tablet(mod,prod,dim,proc,ram,mem,p,sd,j,fID,pxf,pxp,sim),
-    Portatile(mod,prod,dim,proc,ram,mem,p,touch,cd,usb,ete,cam,luce,pxf),
+    Device(path,mod,prod,dim,proc,ram,mem,p),
+    Tablet(path,mod,prod,dim,proc,ram,mem,p,sd,j,fID,pxf,pxp,sim),
+    Portatile(path,mod,prod,dim,proc,ram,mem,p,touch,cd,usb,ete,cam,luce,pxf),
     penna(pen), staccaTastiera(stacca) {}
     // pxf = pixel fotocamera frontale (mobile) = pixel webcam (portatile)
 

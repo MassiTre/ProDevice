@@ -19,8 +19,9 @@ private:
     double prezzo;
 public:
     virtual ~Device() = default;
-    Device(std::string, std::string, std::string, std::string, int, int, double);
+    Device(std::string, std::string, std::string, std::string, std::string, int, int, double);
 
+    std::string getPathImmagine() const;
     std::string getModello() const;
     std::string getProduttore() const;
     std::string getDimensioneSchermo() const;
@@ -30,6 +31,7 @@ public:
     double getPrezzo() const;
     std::string getImmagine() const;
 
+    void setPathImmagine(std::string);
     void setModello(std::string);
     void setProduttore(std::string);
     void setDimensioneSchermo(std::string);
@@ -54,7 +56,7 @@ private:
 
     static int extraSchedaSD;
 public:
-    Mobile(std::string, std::string, std::string, std::string, int, int, double, bool, bool, bool, int, int);
+    Mobile(std::string, std::string, std::string, std::string, std::string, int, int, double, bool, bool, bool, int, int);
 
     bool getSchedaSD() const;
     bool getJack() const;
@@ -79,7 +81,7 @@ class Smartphone : public Mobile {
 
     static int extraDualSIM;
 public:
-    Smartphone(std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", int = 0, int = 0, double = 0.0, bool = true, bool = true, bool = true, int = 0, int = 0, bool = false);
+    Smartphone(std::string = "", std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", int = 0, int = 0, double = 0.0, bool = true, bool = true, bool = true, int = 0, int = 0, bool = false);
 
     bool getDualSIM() const;
 
@@ -96,7 +98,7 @@ class Tablet : public Mobile {
 
     static int extraSIM;
 public:
-    Tablet(std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", int = 0, int = 0, double = 0.0, bool = true, bool = true, bool = true, int = 0, int = 0, bool = false);
+    Tablet(std::string = "", std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", int = 0, int = 0, double = 0.0, bool = true, bool = true, bool = true, int = 0, int = 0, bool = false);
 
     bool getSIM() const;
 
@@ -117,7 +119,7 @@ class Computer : virtual public Device {
 
     static int extraTouchscreen;
 public:
-    Computer(std::string, std::string, std::string, std::string, int, int, double, bool, bool, int);
+    Computer(std::string, std::string, std::string, std::string, std::string, int, int, double, bool, bool, int);
 
     bool getTouchscreen() const;
     bool getLettoreCD() const;
@@ -142,7 +144,7 @@ class Portatile : public Computer {
 
     static int extraLuceTastiera;
 public:
-    Portatile(std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", int = 0, int = 0, double = 0.0, bool = false, bool = false, int = 0, bool = false, bool = true, bool = false, int = 0);
+    Portatile(std::string = "", std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", int = 0, int = 0, double = 0.0, bool = false, bool = false, int = 0, bool = false, bool = true, bool = false, int = 0);
 
     bool getEthernet() const;
     bool getWebcam() const;
@@ -165,7 +167,7 @@ class Fisso : public Computer {
     bool bluetooth;
     bool wifi;
 public:
-    Fisso(std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", int = 0, int = 0, double = 0.0, bool = false, bool = false, int = 0, bool = false, bool = true);
+    Fisso(std::string = "", std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", int = 0, int = 0, double = 0.0, bool = false, bool = false, int = 0, bool = false, bool = true);
 
     bool getBluetooth() const;
     bool getWifi() const;
@@ -183,7 +185,7 @@ class Convertibile : public Tablet , public Portatile {
 public:
     Convertibile(
             // campi device
-            std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", int = 0, int = 0, double = 0.0,
+            std::string = "", std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", int = 0, int = 0, double = 0.0,
             // campi mobile
             bool = true, bool = true, bool = true, int = 0, int = 0,
             // campi tablet

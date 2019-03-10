@@ -30,4 +30,6 @@ MenuBar::MenuBar(QWidget* p):
     connect(voceAggiungi, SIGNAL(triggered()), parent, SLOT(esciLayoutAggiungi()));
     connect(voceCerca, SIGNAL(triggered()), parent, SLOT(esciLayoutCerca()));
     connect(voceCatalogo, SIGNAL(triggered()), parent, SLOT(esciLayoutCatalogo()));
+
+    connect(optionCarica, SIGNAL(triggered()), parent, SLOT(caricaDati()));
 }

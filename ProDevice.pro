@@ -38,7 +38,23 @@ SOURCES += \
     GUI/combomemoriaram.cpp \
     GUI/combomemoriainterna.cpp \
     GUI/itemwidget.cpp \
-    GUI/listdevice.cpp
+    GUI/listdevice.cpp \
+    GUI/modello.cpp \
+    Gerarchia/Gerarchia.cpp \
+    GUI/combomemoriainterna.cpp \
+    GUI/combomemoriaram.cpp \
+    GUI/combotipodevice.cpp \
+    GUI/Controller.cpp \
+    GUI/itemwidget.cpp \
+    GUI/layoutaggiungi.cpp \
+    GUI/layoutcatalogo.cpp \
+    GUI/layoutcerca.cpp \
+    GUI/layouthome.cpp \
+    GUI/listdevice.cpp \
+    GUI/menubar.cpp \
+    GUI/modello.cpp \
+    main.cpp \
+    mainwindow.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -56,7 +72,23 @@ HEADERS += \
     GUI/combomemoriainterna.h \
     GUI/itemwidget.h \
     GUI/listdevice.h \
-    Qonteiner/qonteiner.h
+    Qonteiner/qonteiner.h \
+    Gerarchia/gerarchia.h \
+    GUI/combomemoriainterna.h \
+    GUI/combomemoriaram.h \
+    GUI/combotipodevice.h \
+    GUI/Controller.h \
+    GUI/itemwidget.h \
+    GUI/layoutaggiungi.h \
+    GUI/layoutcatalogo.h \
+    GUI/layoutcerca.h \
+    GUI/layouthome.h \
+    GUI/layouthome_copy.h \
+    GUI/listdevice.h \
+    GUI/menubar.h \
+    GUI/modello.h \
+    Qonteiner/qonteiner.h \
+    mainwindow.h
 
 FORMS += \
         mainwindow.ui

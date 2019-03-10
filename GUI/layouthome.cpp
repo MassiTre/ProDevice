@@ -64,4 +64,6 @@ LayoutHome::LayoutHome(QWidget* p) :
     connect(btAggiungi, SIGNAL(clicked()), parent, SLOT( esciLayoutAggiungi() ));
     connect(btCerca, SIGNAL(clicked()), parent, SLOT( esciLayoutCerca() ));
     connect(btCatalogo, SIGNAL(clicked()), parent, SLOT( esciLayoutCatalogo() ));
+
+    connect(btCarica, SIGNAL(clicked()), parent, SLOT( caricaDati() ));
 }

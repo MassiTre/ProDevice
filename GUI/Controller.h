@@ -1,8 +1,11 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
+
+
 #include <QWidget>
 #include <QVBoxLayout>
+
 #include "modello.h"
 #include "menubar.h"
 #include "layouthome.h"
@@ -24,11 +27,14 @@ class Controller : public QWidget
 
     public:
         Controller(Modello*, QWidget* = nullptr);
+        Modello *getModello();
     public slots:
         void esciLayoutHome() const;
         void esciLayoutAggiungi() const;
         void esciLayoutCerca() const;
         void esciLayoutCatalogo() const;
+
+        void caricaDati();
 
 };
 
