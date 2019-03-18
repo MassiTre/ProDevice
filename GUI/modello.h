@@ -8,15 +8,15 @@ class Modello
 {
     private:
         Container<Device*>* list;
-        std::string path;
+        std::string pathXML;
         bool salvataggio;
     public:
-        Modello(std::string = "../Salvataggio dati/Catalogo.xml");
+        Modello(std::string = ":/Dati Dispositivi");
         ~Modello();
 
         void salva(); //Salvataggio dei dati
         void carica(); //Caricamento dei dati
-        void setNuovaPath(std::string);
+        void setPathXML(std::string);
         bool getSalvataggio() const;
         void setSalvataggio(bool);
         Container<Device*>::iterator it_begin();

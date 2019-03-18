@@ -5,8 +5,8 @@
 #include <QFile>
 #include <QDebug>
 
-void Modello::setNuovaPath(std::string p){
-    path = p;
+void Modello::setPathXML(std::string p){
+    pathXML = p;
     delete list;
     salvataggio = false;
     list = new Container<Device*>();
@@ -31,84 +31,121 @@ Container<Device*>::constiterator Modello::cit_begin() const{
 Container<Device*>::constiterator Modello::cit_end() const{
     return list->const_end();
 }
-/*
-void Modello::salva(){
-    QSaveFile file(QString::fromStdString(path));
-    QXmlStreamWriter lettore(&file);
 
-    lettore.setAutoFormatting(true); // Leggibilità del file XML
-    lettore.writeStartDocument();  // Scrittura intestazioni XML
+void Modello::salva() {
+    QSaveFile file(QString::fromStdString(pathXML));
+    if(!file.open(QIODevice::WriteOnly)) {
+        std::cout << "DANIELE DIO ALTRO" << std::endl;
+        return;
+    }
+    QXmlStreamWriter stream(&file);
 
-    lettore.writeStartElement("Dispositivi nuovi salvati");
+    stream.setAutoFormatting(true); // Leggibilità del file XML
+    stream.writeStartDocument();  // Scrittura intestazioni XML
+
+    stream.writeStartElement("root");
 
     auto it = cit_begin();
-    while(it != cit_end()){
+    while(it != cit_end()) {
         const Device* daSalvare = *it;
         const QString tipoDevice = QString::fromStdString(daSalvare->getTipo());
-        lettore.writeEmptyElement(tipoDevice); // che tipo sto inserendo
+        stream.writeEmptyElement(tipoDevice); // che tipo sto inserendo
 
-        lettore.writeAttribute("Nome", QString::fromStdString(daSalvare->getNome()));
-        lettore.writeAttribute("CasaProduttrice", QString::fromStdString(daSalvare->getCasaProduttrice()));
-        lettore.writeAttribute("Eta", QString("%1").arg(daSalvare->getEta()));
-        lettore.writeAttribute("AnnoPubblicazione", QString("%1").arg(daSalvare->getAnnoPubblicazione()));
-        lettore.writeAttribute("Prezzo", QString().arg(daSalvare->getPrezzo()));
-        lettore.writeAttribute("PezziInMagazzino", QString("%1").arg(daSalvare->getPezziInMagazzino()));
-        lettore.writeAttribute("usato", daSalvare->getUsato() ? "True" : "False");
-        lettore.writeAttribute("pathImm", QString::fromStdString(daSalvare->getPath()));
+        stream.writeAttribute("PathImmagine", QString::fromStdString(daSalvare->getPathImmagine()));
+        stream.writeAttribute("Modello", QString::fromStdString(daSalvare->getModello()));
+        stream.writeAttribute("Produttore", QString::fromStdString(daSalvare->getProduttore()));
+        stream.writeAttribute("Schermo", QString::fromStdString(daSalvare->getDimensioneSchermo()));
+        stream.writeAttribute("Processore", QString::fromStdString(daSalvare->getProcessore()));
+        stream.writeAttribute("Ram", QString("%1").arg(daSalvare->getMemoriaRam()));
+        stream.writeAttribute("Memoria", QString("%1").arg(daSalvare->getMemoria()));
 
-        if(tipologiaOgg == "Videogioco"){
-            const Videogioco* oggVideogioco = static_cast<const Videogioco*>(daSalvare);
-            lettore.writeAttribute("Ps4", oggVideogioco->getPs4() ? "True" : "False");
-            lettore.writeAttribute("XboxOne", oggVideogioco->getXboxOne() ? "True" : "False");
-            lettore.writeAttribute("Genere", QString::fromStdString(oggVideogioco->getGenere()));
-            lettore.writeAttribute("Sconto", QString("%1").arg(oggVideogioco->getSconto()));
-            lettore.writeAttribute("Contenuto", QString::fromStdString(oggVideogioco->getContenuto()));
-        } else if(tipologiaOgg == "GiocoDaTavolo"){
-            const GiocoDaTavolo* oggGiocoDaTavolo = static_cast<const GiocoDaTavolo*>(daSalvare);
-            lettore.writeAttribute("NumGiocatori", QString("%1").arg(oggGiocoDaTavolo->getNumGiocatori()));
-            lettore.writeAttribute("Tipologia", QString::fromStdString(oggGiocoDaTavolo->getTipologia()));
-            lettore.writeAttribute("Regolamento", QString::fromStdString(oggGiocoDaTavolo->getRegolamento()));
-            lettore.writeAttribute("Contenuto", QString::fromStdString(oggGiocoDaTavolo->getContenuto()));
-            lettore.writeAttribute("Sconto", QString("%1").arg(oggGiocoDaTavolo->getSconto()));
-        } else if(tipologiaOgg == "GiocoDaTavoloConCarte"){
-            const GiocoDaTavoloConCarte* oggGiocoDaTavoloConCarte = static_cast<const GiocoDaTavoloConCarte*>(daSalvare);
-            lettore.writeAttribute("edizioneLimitata", oggGiocoDaTavoloConCarte->getEdizioneLimitata() ? "True" : "False");
-            lettore.writeAttribute("Regolamento", QString::fromStdString(oggGiocoDaTavoloConCarte->getRegolamento()));
-            lettore.writeAttribute("NumGiocatori", QString("%1").arg(oggGiocoDaTavoloConCarte->getNumGiocatori()));
-            lettore.writeAttribute("Contenuto", QString::fromStdString(oggGiocoDaTavoloConCarte->getContenuto()));
-            lettore.writeAttribute("Sconto", QString("%1").arg(oggGiocoDaTavoloConCarte->getSconto()));
-        } else if(tipologiaOgg == "CarteCollezionabili"){
-            const CarteCollezionabili* oggCarteCollezionabili = static_cast<const CarteCollezionabili*>(daSalvare);
-            lettore.writeAttribute("edizioneLimitata", oggCarteCollezionabili->getEdizioneLimitata() ? "True" : "False");
-            lettore.writeAttribute("NumCarte", QString("%1").arg(oggCarteCollezionabili->getNumCarte()));
-            lettore.writeAttribute("Edizione", QString::fromStdString(oggCarteCollezionabili->getEdizione()));
-            lettore.writeAttribute("Sconto", QString("%1").arg(oggCarteCollezionabili->getSconto()));
+        if(tipoDevice == "Smartphone" || tipoDevice == "Tablet") { // mobile
+            const Mobile* oMobile = dynamic_cast<const Mobile*>(daSalvare);
+            stream.writeAttribute("PxFrontali", QString("%1").arg(oMobile->getPxFrontali()));
+            stream.writeAttribute("PxPosteriori", QString("%1").arg(oMobile->getPxPosteriori()));
+            stream.writeAttribute("SchedaSD", oMobile->getSchedaSD() ? "true" : "false");
+            stream.writeAttribute("Jack", oMobile->getJack() ? "true" : "false");
+            stream.writeAttribute("FaceID", oMobile->getFaceID() ? "true" : "false");
+
+            if(tipoDevice == "Smartphone") {
+                const Smartphone* oSmartphone = dynamic_cast<const Smartphone*>(oMobile);
+                stream.writeAttribute("DualSIM", oSmartphone->getDualSIM() ? "true" : "false");
+            }
+
+            if(tipoDevice == "Tablet") {
+                const Tablet* oTablet = dynamic_cast<const Tablet*>(oMobile);
+                stream.writeAttribute("SIM", oTablet->getSIM() ? "true" : "false");
+            }
+
+        } else if(tipoDevice == "Portatile" || tipoDevice == "Fisso") { // computer
+                const Computer* oComputer = dynamic_cast<const Computer*>(daSalvare);
+                stream.writeAttribute("Touchscreen", oComputer->getTouchscreen() ? "true" : "false");
+                stream.writeAttribute("LettoreCD", oComputer->getLettoreCD() ? "true" : "false");
+                stream.writeAttribute("PorteUSB", QString("%1").arg(oComputer->getPorteUSB()));
+
+            if(tipoDevice == "Portatile") {
+                const Portatile* oPortatile = dynamic_cast<const Portatile*>(oComputer);
+                stream.writeAttribute("Ethernet", oPortatile->getEthernet() ? "true" : "false");
+                stream.writeAttribute("Webcam", oPortatile->getWebcam() ? "true" : "false");
+                stream.writeAttribute("LuceTastiera", oPortatile->getLuceTastiera() ? "true" : "false");
+                stream.writeAttribute("PxWebcam", QString("%1").arg(oPortatile->getPxWebcam()));
+            }
+
+            if(tipoDevice == "Fisso") {
+                const Fisso* oFisso = dynamic_cast<const Fisso*>(oComputer);
+                stream.writeAttribute("Bluetooth", oFisso->getBluetooth() ? "true" : "false");
+                stream.writeAttribute("WiFi", oFisso->getWifi() ? "true" : "false");
+            }
+
+        } else if(tipoDevice == "Convertibile") {
+            const Convertibile* oConvertibile = dynamic_cast<const Convertibile*>(daSalvare);
+                // mobile //
+                stream.writeAttribute("PxFrontali", QString("%1").arg(oConvertibile->getPxFrontali()));
+                stream.writeAttribute("PxPosteriori", QString("%1").arg(oConvertibile->getPxPosteriori()));
+                stream.writeAttribute("FaceID", oConvertibile->getFaceID() ? "true" : "false");
+                stream.writeAttribute("SchedaSD", oConvertibile->getSchedaSD() ? "true" : "false");
+                stream.writeAttribute("Jack", oConvertibile->getJack() ? "true" : "false");
+                // tablet//
+                stream.writeAttribute("SIM", oConvertibile->getSIM() ? "true" : "false");
+                // computer //
+                stream.writeAttribute("Touchscreen", oConvertibile->getTouchscreen() ? "true" : "false");
+                stream.writeAttribute("LettoreCD", oConvertibile->getLettoreCD() ? "true" : "false");
+                stream.writeAttribute("PorteUSB", QString("%1").arg(oConvertibile->getPorteUSB()));
+                // portatile //
+                stream.writeAttribute("Ethernet", oConvertibile->getEthernet() ? "true" : "false");
+                stream.writeAttribute("Webcam", oConvertibile->getWebcam() ? "true" : "false");
+                stream.writeAttribute("LuceTastiera", oConvertibile->getLuceTastiera() ? "true" : "false");
+                stream.writeAttribute("PxWebcam", QString("%1").arg(oConvertibile->getPxWebcam()));
+                // propri //
+                stream.writeAttribute("Penna", oConvertibile->getPenna() ? "true" : "false");
+                stream.writeAttribute("StaccaTastiera", oConvertibile->getStaccaTastiera() ? "true" : "false");
         }
 
-        ++it;
+     ++it;
     }
 
-    lettore.writeEndElement();
-    lettore.writeEndDocument();
-    datiSalvati = true;
-    file.commit();
+        stream.writeEndElement();
+        stream.writeEndDocument();
+        salvataggio = true;
+        file.commit();
+        std::cout << "DANIELE DIO PORCO" << std::endl;
 }
-*/
+
 void Modello::carica(){
-    QFile fileSalvataggio(QString::fromStdString(path));
+    QFile fileSalvataggio(QString::fromStdString(pathXML));
 
     if(!fileSalvataggio.open(QIODevice::ReadOnly)) {
         qWarning() << "Impossibile caricare il file" << fileSalvataggio.errorString();
         return ;
     }
 
-    QXmlStreamReader lettore(&fileSalvataggio);
-    if(lettore.readNextStartElement()){
-        if(lettore.name() == "root"){
-            while(lettore.readNextStartElement()){
-                const QXmlStreamAttributes attributo = lettore.attributes();
+    QXmlStreamReader stream(&fileSalvataggio);
+    if(stream.readNextStartElement()){
+        if(stream.name() == "root"){
+            while(stream.readNextStartElement()){
+                const QXmlStreamAttributes attributo = stream.attributes();
 
-                std::string PathImmagine = attributo.hasAttribute("pathImmagine")? attributo.value("pathImmagine").toString().toStdString(): "";
+                std::string PathImmagine = attributo.hasAttribute("PathImmagine")? attributo.value("pathImmagine").toString().toStdString(): "";
                 std::string Modello = attributo.hasAttribute("Modello") ? attributo.value("Modello").toString().toStdString() : "";
                 std::string Produttore = attributo.hasAttribute("Produttore") ? attributo.value("Produttore").toString().toStdString() : "";
                 std::string Schermo = attributo.hasAttribute("Schermo") ? attributo.value("Schermo").toString().toStdString() : "";
@@ -119,30 +156,30 @@ void Modello::carica(){
 
                 Device* daInserire = nullptr;
 
-                if(lettore.name() == "Smartphone" || lettore.name() == "Tablet"){
+                if(stream.name() == "Smartphone" || stream.name() == "Tablet"){
                     int PxFrontali = attributo.hasAttribute("PxFrontali") ? attributo.value("PxFrontali").toInt() : 0;
                     int PxPosteriori = attributo.hasAttribute("PxPosteriori") ? attributo.value("PxPosteriori").toInt() : 0;
                     bool SchedaSD = attributo.hasAttribute("SchedaSD") ? attributo.value("SchedaSD").toString()=="true"? true: false : false;
                     bool Jack = attributo.hasAttribute("Jack") ? attributo.value("Jack").toString()=="true"? true: false : false;
                     bool FaceID = attributo.hasAttribute("FaceID") ? attributo.value("FaceID").toString()=="true"? true: false : false;
 
-                    if(lettore.name() == "Smartphone") {
+                    if(stream.name() == "Smartphone") {
                         bool DualSIM = attributo.hasAttribute("DualSIM") ? attributo.value("DualSIM").toString()=="true"? true: false : false;
 
                         daInserire = new Smartphone(PathImmagine, Modello, Produttore, Schermo, Processore, Ram, Memoria, Prezzo, SchedaSD, Jack, FaceID, PxFrontali, PxPosteriori, DualSIM);
                     }
 
-                    if(lettore.name() == "Tablet") {
+                    if(stream.name() == "Tablet") {
                         bool SIM = attributo.hasAttribute("SIM") ? attributo.value("SIM").toString()=="true"? true: false : false;
 
                         daInserire = new Tablet(PathImmagine, Modello, Produttore, Schermo, Processore, Ram, Memoria, Prezzo, SchedaSD, Jack, FaceID, PxFrontali, PxPosteriori, SIM);
                     }
-                } else if(lettore.name() == "Portatile" || lettore.name() == "Fisso"){
+                } else if(stream.name() == "Portatile" || stream.name() == "Fisso"){
                     bool Touchscreen = attributo.hasAttribute("Touchscreen") ? attributo.value("Touchscreen").toString()=="true"? true: false : false;
                     bool LettoreCD = attributo.hasAttribute("LettoreCD") ? attributo.value("LettoreCD").toString()=="true"? true: false : false;
                     int PorteUSB = attributo.hasAttribute("PorteUSB") ? attributo.value("PorteUSB").toInt() : 0;
 
-                    if(lettore.name() == "Portatile") {
+                    if(stream.name() == "Portatile") {
                         bool Ethernet = attributo.hasAttribute("Ethernet") ? attributo.value("Ethernet").toString()=="true"? true: false : false;
                         bool Webcam = attributo.hasAttribute("Webcam") ? attributo.value("Webcam").toString()=="true"? true: false : false;
                         bool LuceTastiera = attributo.hasAttribute("LuceTastiera") ? attributo.value("LuceTastiera").toString()=="true"? true: false : false;
@@ -151,14 +188,14 @@ void Modello::carica(){
                         daInserire = new Portatile(PathImmagine, Modello, Produttore, Schermo, Processore, Ram, Memoria, Prezzo, Touchscreen, LettoreCD, PorteUSB, Ethernet, Webcam, LuceTastiera, PxWebcam);
                     }
 
-                    if(lettore.name() == "Fisso") {
+                    if(stream.name() == "Fisso") {
                         bool Bluetooth = attributo.hasAttribute("Bluetooth") ? attributo.value("Bluetooth").toString()=="true"? true: false : false;
                         bool WiFi = attributo.hasAttribute("WiFi") ? attributo.value("WiFi").toString()=="true"? true: false : false;
 
 
                         daInserire = new Fisso(PathImmagine, Modello, Produttore, Schermo, Processore, Ram, Memoria, Prezzo, Touchscreen, LettoreCD, PorteUSB, Bluetooth, WiFi);
                     }
-                } else if(lettore.name() == "Convertibile") {
+                } else if(stream.name() == "Convertibile") {
                     /* mobile */
                     int PxFrontali = attributo.hasAttribute("PxFrontali") ? attributo.value("PxFrontali").toInt() : 0;
                     int PxPosteriori = attributo.hasAttribute("PxPosteriori") ? attributo.value("PxPosteriori").toInt() : 0;
@@ -186,8 +223,8 @@ void Modello::carica(){
                 if(daInserire!=nullptr)
                     list->insertBack(daInserire);
 
-                if(!lettore.isEndDocument())
-                    lettore.skipCurrentElement();
+                if(!stream.isEndDocument())
+                    stream.skipCurrentElement();
             }
         }
     }
@@ -195,7 +232,7 @@ void Modello::carica(){
 
 Modello::Modello(std::string p):
     list(new Container<Device*>),
-    path(p),
+    pathXML(p),
     salvataggio(true) {}
 
 Container<Device*>* Modello::getList() const{ return list; }

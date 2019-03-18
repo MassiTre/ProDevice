@@ -21,6 +21,8 @@ public:
     virtual ~Device() = default;
     Device(std::string, std::string, std::string, std::string, std::string, int, int, double);
 
+    virtual std::string getTipo() const = 0;
+
     std::string getPathImmagine() const;
     std::string getModello() const;
     std::string getProduttore() const;
@@ -58,6 +60,8 @@ private:
 public:
     Mobile(std::string, std::string, std::string, std::string, std::string, int, int, double, bool, bool, bool, int, int);
 
+    virtual std::string getTipo() const = 0;
+
     bool getSchedaSD() const;
     bool getJack() const;
     bool getFaceID() const;
@@ -83,6 +87,8 @@ class Smartphone : public Mobile {
 public:
     Smartphone(std::string = "", std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", int = 0, int = 0, double = 0.0, bool = true, bool = true, bool = true, int = 0, int = 0, bool = false);
 
+    virtual std::string getTipo() const;
+
     bool getDualSIM() const;
 
     void setDualSIM(bool);
@@ -100,6 +106,8 @@ class Tablet : public Mobile {
 public:
     Tablet(std::string = "", std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", int = 0, int = 0, double = 0.0, bool = true, bool = true, bool = true, int = 0, int = 0, bool = false);
 
+    virtual std::string getTipo() const;
+
     bool getSIM() const;
 
     void setSIM(bool);
@@ -116,6 +124,8 @@ class Computer : virtual public Device {
     bool touchscreen;
     bool lettoreCD;
     int porteUSB;
+
+    virtual std::string getTipo() const = 0;
 
     static int extraTouchscreen;
 public:
@@ -146,6 +156,8 @@ class Portatile : public Computer {
 public:
     Portatile(std::string = "", std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", int = 0, int = 0, double = 0.0, bool = false, bool = false, int = 0, bool = false, bool = true, bool = false, int = 0);
 
+    virtual std::string getTipo() const;
+
     bool getEthernet() const;
     bool getWebcam() const;
     bool getLuceTastiera() const;
@@ -169,6 +181,8 @@ class Fisso : public Computer {
 public:
     Fisso(std::string = "", std::string = "no info", std::string = "no info", std::string = "no info", std::string = "no info", int = 0, int = 0, double = 0.0, bool = false, bool = false, int = 0, bool = false, bool = true);
 
+    virtual std::string getTipo() const;
+
     bool getBluetooth() const;
     bool getWifi() const;
 
@@ -176,6 +190,8 @@ public:
     void setWifi(bool);
 
     virtual bool operator==(const Device&) const;
+
+    double calcolaPrezzo() const;
     virtual std::string stampaSpecifiche() const;
 };
 
@@ -196,6 +212,8 @@ public:
             bool = false, bool = true, bool = false, // int = 0,
             // campi propi
             bool = false, bool = false);
+
+    virtual std::string getTipo() const;
 
     bool getPenna() const;
     bool getStaccaTastiera() const;

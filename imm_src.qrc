@@ -6,4 +6,7 @@
         <file>Immagini/cerca-icon.png</file>
         <file>Immagini/salva-icon.png</file>
     </qresource>
+    <qresource prefix="/">
+        <file>Dati Dispositivi/catalogo.xml</file>
+    </qresource>
 </RCC>

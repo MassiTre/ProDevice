@@ -1,4 +1,5 @@
 #include "menubar.h"
+#include <QFileDialog>
 
 MenuBar::MenuBar(QWidget* p):
     parent(p),
@@ -31,5 +32,5 @@ MenuBar::MenuBar(QWidget* p):
     connect(voceCerca, SIGNAL(triggered()), parent, SLOT(esciLayoutCerca()));
     connect(voceCatalogo, SIGNAL(triggered()), parent, SLOT(esciLayoutCatalogo()));
 
-    connect(optionCarica, SIGNAL(triggered()), parent, SLOT(caricaDati()));
+    connect(optionCarica, SIGNAL(triggered()), parent, SLOT(caricaXML()));
 }

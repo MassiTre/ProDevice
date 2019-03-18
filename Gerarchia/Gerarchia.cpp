@@ -48,7 +48,7 @@ std::string Device::getProcessore() const { return processore; }
 int Device::getMemoriaRam() const { return memoriaRam; }
 int Device::getMemoria() const { return memoria; }
 double Device::getPrezzo() const { return prezzo; }
-std::string Device::getImmagine() const{ return pathImmagine; }
+std::string Device::getPathImmagine() const{ return pathImmagine; }
 
 bool Mobile::getSchedaSD() const { return schedaSD; }
 bool Mobile::getJack() const { return jack; }
@@ -75,6 +75,22 @@ bool Fisso::getWifi() const { return wifi; }
 bool Convertibile::getPenna() const { return penna; }
 bool Convertibile::getStaccaTastiera() const { return staccaTastiera; }
 
+/********************* GET TIPo ********************/
+std::string Smartphone::getTipo() const {
+    return "smartphone";
+}
+std::string Tablet::getTipo() const {
+    return "tablet";
+}
+std::string Portatile::getTipo() const {
+    return "portatile";
+}
+std::string Fisso::getTipo() const {
+    return "fisso";
+}
+std::string Convertibile::getTipo() const {
+    return "convertibile";
+}
 /********************* SET ********************/
 
 void Device::setModello(std::string m) {modello = m;}
@@ -188,6 +204,10 @@ double Computer::calcolaPrezzo() const {
 
 double Portatile::calcolaPrezzo() const {
     return extraLuceTastiera*luceTastiera + Computer::calcolaPrezzo();
+}
+
+double Fisso::calcolaPrezzo() const {
+    return Computer::calcolaPrezzo();
 }
 
 double Convertibile::calcolaPrezzo() const {

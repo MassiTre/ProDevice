@@ -6,7 +6,7 @@
 
 /************************* LAYOUT AGGIUNGI PRINCIPALE *************************/
 LayoutAggiungi::LayoutAggiungi(QWidget* p):
-    QWidget (p),
+    parent(p),
     vBox(new QVBoxLayout(this)),
     tipoDevice(new ComboTipoDevice(this)),
     lineModello(new QLineEdit(this)),
@@ -88,7 +88,7 @@ LayoutAggiungi::LayoutAggiungi(QWidget* p):
 
     connect(tipoDevice, SIGNAL(activated(int)), this, SLOT( cambiaAggiungiLayout(int) ) );
 
-    connect(btAggiungi, SIGNAL(clicked()), this, SLOT( aggiungiDevice() ));
+    connect(btAggiungi, SIGNAL(clicked()), p, SLOT( aggiungiDevice() ));
 
    /*
         tipoDevice->setStyleSheet("height: 100%");
@@ -99,7 +99,7 @@ LayoutAggiungi::LayoutAggiungi(QWidget* p):
     // grid->setRowMinimumHeight(0,500);
 }
 
-// ComboTipoDevice* LayoutAggiungi::getTipoDevice() const { return tipoDevice; }
+ComboTipoDevice* LayoutAggiungi::getTipoDevice() const { return tipoDevice; }
 QLineEdit *LayoutAggiungi::getLineModello() const { return lineModello; }
 QLineEdit *LayoutAggiungi::getLineSchermo() const { return lineSchermo; }
 QLineEdit *LayoutAggiungi::getLinePrezzo() const { return linePrezzo; }
@@ -109,6 +109,32 @@ QComboBox* LayoutAggiungi::getMemoriaRam() const { return memoriaRam; }
 QComboBox* LayoutAggiungi::getMemoriaInterna() const { return memoriaInterna; }
 QCheckBox* LayoutAggiungi::getCheckTouchID() const { return checkTouchID; }
 QPushButton* LayoutAggiungi::getBtAggiungi() const { return btAggiungi; }
+int LayoutAggiungi::getIntMemoriaRam() const {
+    switch (memoriaRam->currentIndex()) {
+        case 0: return 2;
+        case 1: return 4;
+        case 2: return 8;
+        case 3: return 16;
+        case 4: return 32;
+        case 5: return 64;
+    default: return -1;
+    }
+}
+int LayoutAggiungi::getIntMemoriaInterna() const {
+    switch (memoriaRam->currentIndex()) {
+        case 0: return 8;
+        case 1: return 16;
+        case 2: return 32;
+        case 3: return 64;
+        case 4: return 128;
+        case 5: return 256;
+        case 6: return 512;
+        case 7: return 1024;
+        case 8: return 2048;
+        case 9: return 3072;
+    default: return -1;
+    }
+}
 
 void LayoutAggiungi::cambiaAggiungiLayout(int index) const {
     switch(index){
@@ -147,6 +173,8 @@ void LayoutAggiungi::cambiaAggiungiLayout(int index) const {
         aggiungiPortatile->show();
         aggiungiFisso->hide();
         aggiungiConvertibile->hide();
+        aggiungiPortatile->getCheckWebcam()->setEnabled(true);
+        aggiungiPortatile->getLinePxWebcam()->setEnabled(false);
         break;
     case 4: // fisso + computer
         aggiungiMobile->hide();
@@ -165,35 +193,13 @@ void LayoutAggiungi::cambiaAggiungiLayout(int index) const {
         aggiungiPortatile->show();
         aggiungiFisso->hide();
         aggiungiConvertibile->show();
+        aggiungiPortatile->getCheckWebcam()->setEnabled(false);
+        aggiungiPortatile->getLinePxWebcam()->setEnabled(false);
         break;
     }
 }
 
-#include<iostream>
-
-void LayoutAggiungi::aggiungiDevice() const
-{
-    if( tipoDevice->currentIndex() == 0 ){
-        std::cout << "eccezione: devi scegliere il tipo" << std::endl;
-        // Smartphone n( , lineProduttore->text().toStdString() );
-    }
-    if( tipoDevice->currentIndex() == 1 ){ // smartphone
-
-    }
-    if( tipoDevice->currentIndex() == 2 ){ // tablet
-
-    }
-    if( tipoDevice->currentIndex() == 3 ){ // portatile
-
-    }
-    if( tipoDevice->currentIndex() == 4 ){ // fisso
-
-    }
-    if( tipoDevice->currentIndex() == 5 ){ // convertibile
-
-    }
-}
-/************************* LAYOUT AGGIUNGI SMARTPHONE *************************/
+/************************* LAYOUT AGGIUNGI CONVERTIBILE *************************/
 LayoutAggiungiConvertibile::LayoutAggiungiConvertibile(QWidget* p) :
     QWidget(p),
     checkPenna(new QCheckBox("Bluetooth",this)),
@@ -204,7 +210,10 @@ LayoutAggiungiConvertibile::LayoutAggiungiConvertibile(QWidget* p) :
     hBox->addWidget(checkStaccaTastiera);
 }
 
-/************************* LAYOUT AGGIUNGI SMARTPHONE *************************/
+QCheckBox* LayoutAggiungiConvertibile::getCheckPenna() const{ return checkPenna;}
+QCheckBox* LayoutAggiungiConvertibile::getCheckStaccaTastiera() const{ return checkStaccaTastiera;}
+
+/************************* LAYOUT AGGIUNGI FISSO *************************/
 LayoutAggiungiFisso::LayoutAggiungiFisso(QWidget* p) :
     QWidget(p),
     checkBluetooth(new QCheckBox("Bluetooth",this)),
@@ -214,7 +223,11 @@ LayoutAggiungiFisso::LayoutAggiungiFisso(QWidget* p) :
     hBox->addWidget(checkBluetooth);
     hBox->addWidget(checkWifi);
 }
-/************************* LAYOUT AGGIUNGI SMARTPHONE *************************/
+
+QCheckBox* LayoutAggiungiFisso::getCheckBluetooth() const{ return checkBluetooth;}
+QCheckBox* LayoutAggiungiFisso::getCheckWifi() const{ return checkWifi;}
+
+/************************* LAYOUT AGGIUNGI PORTATILE *************************/
 LayoutAggiungiPortatile::LayoutAggiungiPortatile(QWidget* p) :
     QWidget(p),
     grid(new QGridLayout(this)),
@@ -240,6 +253,12 @@ LayoutAggiungiPortatile::LayoutAggiungiPortatile(QWidget* p) :
 void LayoutAggiungiPortatile::attivaLineWebcam() const{
     checkWebcam->isChecked() ? linePxWebcam->setEnabled(true) : linePxWebcam->setEnabled(false);
 }
+
+QCheckBox* LayoutAggiungiPortatile::getCheckEthernet() const{ return checkEthernet;}
+QCheckBox* LayoutAggiungiPortatile::getCheckWebcam() const{ return checkWebcam;}
+QCheckBox* LayoutAggiungiPortatile::getCheckLuceTastiera() const{ return checkLuceTastiera;}
+QLineEdit* LayoutAggiungiPortatile::getLinePxWebcam() const { return linePxWebcam; }
+
 /************************* LAYOUT AGGIUNGI SMARTPHONE *************************/
 LayoutAggiungiComputer::LayoutAggiungiComputer(QWidget* p) :
     QWidget(p),
@@ -255,6 +274,11 @@ LayoutAggiungiComputer::LayoutAggiungiComputer(QWidget* p) :
     formPorteUsb->addRow("Porte USB:",linePorteUsb);
     grid->addLayout(formPorteUsb,0,2,1,2);
 }
+
+QCheckBox* LayoutAggiungiComputer::getCheckTouchscreen() const{ return checkTouchscreen;}
+QCheckBox* LayoutAggiungiComputer::getCheckLettoreCD() const{ return checkLettoreCD;}
+QLineEdit* LayoutAggiungiComputer::getLinePorteUsb() const{ return linePorteUsb;}
+
 /************************* LAYOUT AGGIUNGI SMARTPHONE *************************/
 LayoutAggiungiTablet::LayoutAggiungiTablet(QWidget* p) :
     QWidget(p),
@@ -263,6 +287,9 @@ LayoutAggiungiTablet::LayoutAggiungiTablet(QWidget* p) :
     QHBoxLayout* hBox = new QHBoxLayout(this);
     hBox->addWidget(checkSim);
 }
+
+QCheckBox* LayoutAggiungiTablet::getCheckSim() const{ return checkSim;}
+
 /************************* LAYOUT AGGIUNGI SMARTPHONE *************************/
 LayoutAggiungiSmartphone::LayoutAggiungiSmartphone(QWidget* p) :
     QWidget(p),
@@ -271,6 +298,8 @@ LayoutAggiungiSmartphone::LayoutAggiungiSmartphone(QWidget* p) :
     QHBoxLayout* hBox = new QHBoxLayout(this);
     hBox->addWidget(checkDualSim);
 }
+
+QCheckBox* LayoutAggiungiSmartphone::getCheckDualSim() const{ return checkDualSim;}
 
 /************************* LAYOUT AGGIUNGI MOBILE *************************/
 
@@ -299,3 +328,17 @@ LayoutAggiungiMobile::LayoutAggiungiMobile (QWidget* p) :
     grid->addWidget(checkFaceID,1,4,1,2);
 
 }
+
+QCheckBox* LayoutAggiungiMobile::getCheckSchedaSD() const{ return checkSchedaSD;}
+QCheckBox* LayoutAggiungiMobile::getCheckJack() const{ return checkJack;}
+QCheckBox* LayoutAggiungiMobile::getCheckFaceID() const{ return checkFaceID;}
+QLineEdit* LayoutAggiungiMobile::getLinePxFront() const{ return linePxFront;}
+QLineEdit* LayoutAggiungiMobile::getLinePxBack() const{ return linePxBack;}
+
+LayoutAggiungiMobile* LayoutAggiungi::getAggiungiMobile() const { return aggiungiMobile; }
+LayoutAggiungiSmartphone* LayoutAggiungi::getAggiungiSmartphone() const { return aggiungiSmartphone; }
+LayoutAggiungiTablet* LayoutAggiungi::getAggiungiTablet() const { return aggiungiTablet; }
+LayoutAggiungiComputer* LayoutAggiungi::getAggiungiComputer() const { return aggiungiComputer; }
+LayoutAggiungiPortatile* LayoutAggiungi::getAggiungiPortatile() const { return aggiungiPortatile; }
+LayoutAggiungiFisso* LayoutAggiungi::getAggiungiFisso() const { return aggiungiFisso; }
+LayoutAggiungiConvertibile* LayoutAggiungi::getAggiungiConvertibile() const { return aggiungiConvertibile; }

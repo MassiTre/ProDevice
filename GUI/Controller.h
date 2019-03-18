@@ -1,8 +1,6 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
 
-
-
 #include <QWidget>
 #include <QVBoxLayout>
 
@@ -25,6 +23,8 @@ class Controller : public QWidget
         LayoutCerca* cercaLayout;
         LayoutCatalogo* catalogoLayout;
 
+        QString pathXML;
+
     public:
         Controller(Modello*, QWidget* = nullptr);
         Modello *getModello();
@@ -34,7 +34,10 @@ class Controller : public QWidget
         void esciLayoutCerca() const;
         void esciLayoutCatalogo() const;
 
-        void caricaDati();
+        void caricaXML();
+        void salvaXML() const;
+
+        void aggiungiDevice() const;
 
 };
 

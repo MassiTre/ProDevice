@@ -22,6 +22,9 @@ private:
     QCheckBox* checkStaccaTastiera;
 public:
     LayoutAggiungiConvertibile (QWidget* = nullptr);
+
+    QCheckBox* getCheckPenna() const;
+    QCheckBox* getCheckStaccaTastiera() const;
 };
 
 class LayoutAggiungiFisso : public QWidget {
@@ -31,6 +34,9 @@ private:
     QCheckBox* checkWifi;
 public:
     LayoutAggiungiFisso (QWidget* = nullptr);
+
+    QCheckBox* getCheckBluetooth() const;
+    QCheckBox* getCheckWifi() const;
 };
 
 class LayoutAggiungiPortatile : public QWidget {
@@ -44,6 +50,11 @@ private:
     QLineEdit* linePxWebcam;
 public:
     LayoutAggiungiPortatile (QWidget* = nullptr);
+
+    QCheckBox* getCheckEthernet() const;
+    QCheckBox* getCheckWebcam() const;
+    QCheckBox* getCheckLuceTastiera() const;
+    QLineEdit* getLinePxWebcam() const;
 public slots:
     void attivaLineWebcam() const;
 };
@@ -56,6 +67,10 @@ private:
     QLineEdit* linePorteUsb;
 public:
     LayoutAggiungiComputer (QWidget* = nullptr);
+
+    QCheckBox* getCheckTouchscreen() const;
+    QCheckBox* getCheckLettoreCD() const;
+    QLineEdit* getLinePorteUsb() const;
 };
 
 class LayoutAggiungiTablet : public QWidget {
@@ -64,6 +79,8 @@ private:
     QCheckBox* checkSim;
 public:
     LayoutAggiungiTablet (QWidget* = nullptr);
+
+    QCheckBox* getCheckSim() const;
 };
 
 class LayoutAggiungiSmartphone : public QWidget {
@@ -72,6 +89,8 @@ private:
     QCheckBox* checkDualSim;
 public:
     LayoutAggiungiSmartphone (QWidget* = nullptr);
+
+    QCheckBox* getCheckDualSim() const;
 };
 
 
@@ -85,11 +104,19 @@ private:
     QLineEdit* linePxBack;
 public:
     LayoutAggiungiMobile (QWidget* = nullptr);
+
+    QCheckBox* getCheckSchedaSD() const;
+    QCheckBox* getCheckJack() const;
+    QCheckBox* getCheckFaceID() const;
+    QLineEdit* getLinePxFront() const;
+    QLineEdit* getLinePxBack() const;
 };
 
 class LayoutAggiungi : public QWidget {
     Q_OBJECT
 private:
+    QWidget* parent;
+
     QVBoxLayout* vBox;
 
     ComboTipoDevice* tipoDevice;
@@ -119,7 +146,7 @@ private:
 public:
     LayoutAggiungi(QWidget* = nullptr);
 
-    // ComboTipoDevice* getTipoDevice() const;
+    ComboTipoDevice* getTipoDevice() const;
     QLineEdit *getLineModello() const;
     QLineEdit *getLineSchermo() const;
     QLineEdit *getLinePrezzo() const;
@@ -129,10 +156,20 @@ public:
     QComboBox* getMemoriaInterna() const;
     QCheckBox* getCheckTouchID() const;
     QPushButton* getBtAggiungi() const;
+    int getIntMemoriaRam() const;
+    int getIntMemoriaInterna() const;
+
+    LayoutAggiungiMobile* getAggiungiMobile() const;
+    LayoutAggiungiSmartphone* getAggiungiSmartphone() const;
+    LayoutAggiungiTablet* getAggiungiTablet() const;
+    LayoutAggiungiComputer* getAggiungiComputer() const;
+    LayoutAggiungiPortatile* getAggiungiPortatile() const;
+    LayoutAggiungiFisso* getAggiungiFisso() const;
+    LayoutAggiungiConvertibile* getAggiungiConvertibile() const;
 
 public slots:
     void cambiaAggiungiLayout(int) const;
-    void aggiungiDevice() const;
+    // void aggiungiDevice() const;
 };
 
 #endif // LAYOUTAGGIUNGI_H

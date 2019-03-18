@@ -10,7 +10,7 @@ ComboMemoriaInterna::ComboMemoriaInterna(QWidget* parent) :
     addItem("128 GB");
     addItem("256 GB");
     addItem("512 GB");
-    addItem("1 TB");
-    addItem("2 TB");
-    addItem("3 TB");;
+    addItem("1024 GB");
+    addItem("2048 GB");
+    addItem("3072 GB");
 }

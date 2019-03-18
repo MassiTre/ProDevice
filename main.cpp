@@ -1,6 +1,6 @@
 #include "Gerarchia/gerarchia.h"
 #include "Qonteiner/qonteiner.h"
-#include "GUI/controller.h"
+#include "GUI/Controller.h"
 #include "GUI/modello.h"
 
 #include <QApplication>
@@ -24,7 +24,7 @@ int main(int argc, char *argv[])
     // w.setFixedWidth(1000);
     // w.setMaximumHeight(1000);
     w.show();
-
+/*
     Convertibile d;
     d.setPrezzo(1000);
     std::cout << "prezzo base: " << d.getPrezzo() << std::endl;
@@ -39,5 +39,6 @@ int main(int argc, char *argv[])
     std::cout << "px Webcam: " << d.getPxWebcam() << std::endl << std::endl;
 
     std::cout << "Info: \n" << d.stampaSpecifiche() << std::endl << std::endl;
+*/
     return a.exec();
 }
