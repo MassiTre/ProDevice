@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/imm">
+        <file>Immagini/aggiungi-icon.png</file>
+        <file>Immagini/carica-icon.png</file>
+        <file>Immagini/catalogo-icon.png</file>
+        <file>Immagini/cerca-icon.png</file>
+    </qresource>
+    <qresource prefix="/">
+        <file>Dati Dispositivi/pixel-3xl.png</file>
+    </qresource>
+</RCC>
